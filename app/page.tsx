@@ -1,5 +1,8 @@
+"use client";
+
 // src/app/spin-wheel/page.tsx
 import SpinWheel from "@/components/spin-wheel";
+import { useState } from "react";
 
 // The JSON you provided
 const wheelData = {
@@ -43,10 +46,22 @@ const wheelData = {
 };
 
 export default function SpinPage() {
+  const [toggle, setToggle] = useState<"CHRISTMAS" | "HALLOWEEN">("CHRISTMAS");
+
   return (
-    <main>
+    <main className="bg-white relative">
+      <button
+        onClick={() =>
+          setToggle(toggle === "CHRISTMAS" ? "HALLOWEEN" : "CHRISTMAS")
+        }
+        className="bg-amber-700 px-4 p-2 absolute bottom-4 left-0 right-0 mx-auto z-40 w-64 rounded-md"
+      >
+        {" "}
+        Toggle Theme
+      </button>
+
       {/* Change theme to 'CHRISTMAS' or 'DEFAULT' to test skins */}
-      <SpinWheel data={wheelData} themeName="CHRISTMAS" />
+      <SpinWheel data={wheelData} themeName={toggle} />
     </main>
   );
 }
