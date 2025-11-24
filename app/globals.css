@@ -24,3 +24,32 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+@layer utilities {
+  /* We define the animation here because it relies on CSS variables 
+    (--dx, --dy) that Tailwind doesn't know about.
+  */
+  @keyframes explode-motion {
+    0% {
+      opacity: 1;
+      transform: translate(0, 0) scale(1) rotate(0deg);
+    }
+    20% {
+      /* The "POP" outward */
+      opacity: 1;
+      transform: translate(calc(var(--dx) * 0.6), calc(var(--dy) * 0.6))
+        scale(1.1) rotate(calc(var(--r) * 0.3));
+    }
+    100% {
+      /* The fall and fade */
+      opacity: 0;
+      transform: translate(var(--dx), calc(var(--dy) + 100px)) scale(0)
+        rotate(var(--r));
+    }
+  }
+
+  .animate-explode {
+    /* Run for 0.8s, use a "pop" easing curve, keep final state */
+    animation: explode-motion 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+}
