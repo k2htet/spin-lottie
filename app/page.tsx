@@ -1,5 +1,6 @@
 "use client";
 
+import EggHit from "@/components/egg-hit";
 // src/app/spin-wheel/page.tsx
 import SpinWheel from "@/components/spin-wheel";
 import { useState } from "react";
@@ -62,6 +63,7 @@ export default function SpinPage() {
 
       {/* Change theme to 'CHRISTMAS' or 'DEFAULT' to test skins */}
       <SpinWheel data={wheelData} themeName={toggle} />
+      {/* <EggHit /> */}
     </main>
   );
 }

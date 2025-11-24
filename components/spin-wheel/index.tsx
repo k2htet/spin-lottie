@@ -8,6 +8,7 @@ import { WheelCanvas } from "./wheel-canvas";
 import { WHEEL_THEMES } from "./wheel-config";
 import { useWheelSound } from "./useWheelSound";
 import { Play } from "lucide-react";
+import Snowfall from "react-snowfall";
 
 interface SpinWheelProps {
   data: any;
@@ -109,12 +110,20 @@ export default function SpinWheel({
     <div
       className={`relative flex flex-col items-center justify-center h-dvh w-full overflow-hidden ${theme.backgroundClass} transition-colors duration-500`}
     >
+      {themeName === "CHRISTMAS" && (
+        <Snowfall
+          style={{
+            position: "fixed",
+            width: "100vw",
+            height: "100vh",
+          }}
+        />
+      )}
       {/* LAYER 1: BACKGROUND LOTTIE */}
       {theme.lottieBg && (
-        <div className="absolute z-0 -top-10  opacity-40 pointer-events-none">
+        <div className="absolute z-0 -top-10  opacity-40 pointer-events-none pt-2">
           <Lottie
             animationData={theme.lottieBg}
-            loop={true}
             className="w-md md:w-2xl object-cover bg-top "
           />
         </div>
