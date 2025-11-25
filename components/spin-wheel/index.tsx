@@ -2,13 +2,14 @@
 "use client";
 
 import React, { useState, useRef } from "react";
-import { motion, useAnimation, cubicBezier } from "framer-motion";
+import * as motion from "motion/react-client";
 import Lottie, { LottieRefCurrentProps } from "lottie-react";
 import { WheelCanvas } from "./wheel-canvas";
 import { WHEEL_THEMES } from "./wheel-config";
 import { useWheelSound } from "./useWheelSound";
 import { Play } from "lucide-react";
 import Snowfall from "react-snowfall";
+import { cubicBezier, useAnimation } from "motion/react";
 
 interface SpinWheelProps {
   data: any;

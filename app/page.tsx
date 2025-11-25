@@ -14,6 +14,10 @@ const wheelData = {
   start_date: "2024-08-01T00:00:00Z",
   end_date: "2025-012-01T00:00:00Z", // Adjusted to future date so it works
   setting: { is_kyc_verify: true },
+  backgroundClass: "bg-slate-900",
+  borderClass: "border-gray-700",
+  pointerColor: "#EF4444", // Red
+
   segments: [
     {
       name: "Grand Prize",
