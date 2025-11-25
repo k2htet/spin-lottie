@@ -10,6 +10,7 @@ import { useWheelSound } from "./useWheelSound";
 import { Play } from "lucide-react";
 import Snowfall from "react-snowfall";
 import { cubicBezier, useAnimation } from "motion/react";
+import { useHowler } from "./useHowler";
 
 interface SpinWheelProps {
   data: any;
@@ -24,14 +25,11 @@ export default function SpinWheel({
   const lottieRef = useRef<LottieRefCurrentProps>(null);
   const [isSpinning, setIsSpinning] = useState(false);
   const [winner, setWinner] = useState<any>(null);
-  const { playTick, playWin, stopTick } = useWheelSound();
-
+  const { playTick, playWin, stopTick } = useHowler();
+  const lastIndexRef = useRef(0);
+  const rotationRef = useRef(0);
   const theme = WHEEL_THEMES[themeName];
   const segments = data.segments;
-
-  const lastIndexRef = useRef(0);
-
-  const rotationRef = useRef(0);
 
   const handleSpin = async () => {
     // 1. Validation
@@ -46,38 +44,25 @@ export default function SpinWheel({
 
     setIsSpinning(true);
     setWinner(null);
-    lastIndexRef.current = 0;
 
-    // 2. SIMULATE API
-    const winningIndex = 2; // Hardcoded for testing
+    // 2. SIMULATE API (Or use your real winner index)
+    const winningIndex = 2;
 
     // 3. PHYSICS CALCULATION
     const segmentAngle = 360 / segments.length;
-
-    // We want to land on the CENTER of the winning index
     const winningSectorAngle = winningIndex * segmentAngle + segmentAngle / 2;
 
     // 4. Calculate Rotation
     const spins = 5;
     const baseRotation = 360 * spins;
     const currentRotation = rotationRef.current;
-
-    // MATH FIX:
-    // We calculate the next nearest "0" (Top) position:
-    // (current + base + remainder fix)
-    // Then we simply SUBTRACT the winning angle to bring that segment back to 0 (Top)
     const resetToZero = 360 - (currentRotation % 360);
-
     const targetRotation =
       currentRotation + baseRotation + resetToZero - winningSectorAngle;
-
-    // 5. Randomness (Safe zone: 40% of slice width)
     const randomOffset =
       Math.random() * segmentAngle * 0.8 - segmentAngle * 0.4;
-
     const finalRotation = targetRotation + randomOffset;
 
-    // Save state
     rotationRef.current = finalRotation;
 
     await controls.start({
@@ -89,24 +74,20 @@ export default function SpinWheel({
           const currentStep = Math.floor(
             Math.abs(latestValue as number) / segmentAngle
           );
+
           if (currentStep !== lastIndexRef.current) {
-            playTick();
+            playTick(); // This triggers Howler (Low latency)
             lastIndexRef.current = currentStep;
           }
         },
       },
     });
-
-    // 6. Stop Sound & Show Winner
-    stopTick(); // Force stop the clicking sound
-
+    stopTick();
     playWin();
-
     setWinner(segments[winningIndex]);
     setIsSpinning(false);
     if (lottieRef.current) lottieRef.current.play();
   };
-
   return (
     <div
       className={`relative flex flex-col items-center justify-center h-dvh w-full overflow-hidden ${theme.backgroundClass} transition-colors duration-500`}
@@ -122,11 +103,8 @@ export default function SpinWheel({
       )}
       {/* LAYER 1: BACKGROUND LOTTIE */}
       {theme.lottieBg && (
-        <div className="absolute z-0 -top-10  opacity-40 pointer-events-none pt-2">
-          <Lottie
-            animationData={theme.lottieBg}
-            className="w-md md:w-2xl object-cover bg-top"
-          />
+        <div className="absolute z-0 top-10 md:-top-20 opacity-40 pointer-events-none pt-2">
+          <Lottie animationData={theme.lottieBg} />
         </div>
       )}
 
@@ -182,7 +160,7 @@ export default function SpinWheel({
                 animationData={theme.lottieWin}
                 lottieRef={lottieRef}
                 loop={false}
-                className="w-lg "
+                className="w-md "
               />
             )}
 
@@ -191,7 +169,7 @@ export default function SpinWheel({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1, delay: 2 }}
-              className="absolute bottom-10 text-center pointer-events-auto"
+              className="absolute bottom-8 text-center pointer-events-auto"
               style={{ willChange: "transform" }}
             >
               <button
