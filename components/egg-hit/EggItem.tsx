@@ -26,6 +26,7 @@ export const EggItem = ({
             initial={{ opacity: 0, y: 20, scale: 0.5 }}
             animate={{ opacity: 1, y: -20, scale: 1 }}
             className="absolute z-0 font-bold text-yellow-400 text-xl drop-shadow-md"
+            style={{ willChange: "transform" }}
           >
             {prizeValue}
           </motion.div>
@@ -40,6 +41,7 @@ export const EggItem = ({
         className="relative z-10 w-full h-full focus:outline-none"
         style={{
           cursor: isBroken ? "default" : "url('/images/hammer.png'), pointer",
+          willChange: "transform",
         }} // Optional custom cursor
       >
         <AnimatePresence mode="wait">
@@ -52,6 +54,7 @@ export const EggItem = ({
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               exit={{ opacity: 0, scale: 1.2 }} // Puff out effect
+              style={{ willChange: "transform" }}
             >
               {/* Egg Shell */}
               <ellipse cx="50" cy="65" rx="45" ry="60" fill="#fef3c7" />{" "}
@@ -85,6 +88,7 @@ export const EggItem = ({
               className="w-full h-full drop-shadow-sm opacity-80"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
+              style={{ willChange: "transform" }}
             >
               {/* Bottom Half */}
               <path

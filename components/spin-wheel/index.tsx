@@ -125,7 +125,7 @@ export default function SpinWheel({
         <div className="absolute z-0 -top-10  opacity-40 pointer-events-none pt-2">
           <Lottie
             animationData={theme.lottieBg}
-            className="w-md md:w-2xl object-cover bg-top "
+            className="w-md md:w-2xl object-cover bg-top"
           />
         </div>
       )}
@@ -145,6 +145,7 @@ export default function SpinWheel({
           className={`w-full h-full rounded-full border-8 shadow-2xl bg-white ${theme.borderClass}`}
           animate={controls}
           initial={{ rotate: 0 }}
+          style={{ willChange: "transform" }}
         >
           <WheelCanvas segments={segments} themeColors={theme.colors} />
         </motion.div>
@@ -188,6 +189,7 @@ export default function SpinWheel({
               animate={{ opacity: 1 }}
               transition={{ duration: 1, delay: 2 }}
               className="absolute bottom-10 text-center pointer-events-auto"
+              style={{ willChange: "transform" }}
             >
               <button
                 onClick={() => setWinner(null)}
