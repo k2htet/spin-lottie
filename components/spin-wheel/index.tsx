@@ -140,15 +140,18 @@ export default function SpinWheel({
           />
         </div>
 
-        {/* SPINNING SVG */}
-        <motion.div
-          className={`w-full h-full rounded-full border-8 shadow-2xl bg-white ${theme.borderClass}`}
-          animate={controls}
-          initial={{ rotate: 0 }}
-          style={{ willChange: "transform" }}
+        <div
+          className={`w-full h-full rounded-full shadow-2xl bg-white border-8 ${theme.borderClass}`}
         >
-          <WheelCanvas segments={segments} themeColors={theme.colors} />
-        </motion.div>
+          <motion.div
+            className="w-full h-full rounded-full"
+            animate={controls}
+            initial={{ rotate: 0 }}
+            style={{ willChange: "transform" }}
+          >
+            <WheelCanvas segments={segments} themeColors={theme.colors} />
+          </motion.div>
+        </div>
 
         {/* CENTERED SPIN BUTTON (overlays the wheel center) */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
